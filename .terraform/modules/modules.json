@@ -1,1 +1,1 @@
-{"Modules":[{"Key":"","Source":"","Dir":"."},{"Key":"file_writer","Source":"./modules/local_file_writer","Dir":"modules/local_file_writer"}]}
+{"Modules":[{"Key":"","Source":"","Dir":"."},{"Key":"state_s3","Source":"./modules/state_s3","Dir":"modules/state_s3"}]}
