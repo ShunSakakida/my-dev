@@ -1,0 +1,43 @@
+name: Go CI
+
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+    branches:
+      - main
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      # リポジトリのコードをチェックアウト
+      - name: Check out code
+        uses: actions/checkout@v2
+      # Goのインストール
+      - name: Set up Go
+        uses: actions/setup-go@v3
+        with:
+          go-version: '1.22'
+      # Goのビルド
+      - name: Build
+        run: go build -v .
+      # Goの実行
+      - name: Run
+        run: go run main.go
+      # Goのテスト
+      - name: Test
+        run: go test -v ./...
+      # カバレッジレポートの生成
+      - name: Generate coverage report
+        run: go test -coverprofile=coverage.out ./...
+      - name: Upload coverage to Codecov
+        uses: codecov/codecov-action@v3
+        with: # アクションに渡す入力パラメータ
+          token: ${{ secrets.CODECOV_TOKEN }} # Codecovのトークン：GitHubのSecretsに登録しておく
+          file: coverage.out # アップするカバレッジレポートのファイル名
+          flags: unittests # カバレッジの種類
+          name: codecov-umbrella # カバレッジの名前
+          fail_ci_if_error: true # カバレッジのアップロードに失敗した場合、CIを失敗させるかどうか

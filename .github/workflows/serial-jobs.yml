@@ -1,0 +1,30 @@
+name: Serial Jobs Example
+
+# needsを指定することで、jobを直列に実行することができる
+
+on: 
+  push:
+    branches:
+      - main
+
+jobs:
+  first-job:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Step 1 - Print Hello
+        run: echo "Hello"
+
+  second-job:
+    runs-on: ubuntu-latest
+    needs: first-job # jobは本来並列で実行されるが、needsを指定することで直列に実行される
+    steps:
+      - name: Step 2 - Print World
+        run: echo "World"
+
+  third-job:
+    runs-on: ubuntu-latest
+    needs: second-job
+
+    steps:
+      - name: Step 3 - Print Done
+        run: echo "Done"

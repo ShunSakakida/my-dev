@@ -1,0 +1,30 @@
+name: Hello World
+
+# ワークフローのトリガー
+on:
+  # リポジトリにコードがプッシュされたとき
+  push:
+    branches:
+      - main # mainブランチにプッシュされたとき
+  # リポジトリにPRが作成されたとき
+  pull_request:
+    branches:
+      - main # mainブランチに対してPRが作成されたとき
+
+# 実行するジョブの定義
+jobs:
+  # say-helloという名前のジョブを定義
+  say-hello:
+    runs-on: ubuntu-latest # ジョブの実行環境を指定：必ず指定する
+    steps:
+      # ジョブ内で順番に実行されるステップ
+      - name: Print Hello World
+        run: echo "Hello, World!"
+      - name: Echo Hello World
+        run: echo "Hello, World!"
+  # ジョブ同士は並列で実行される
+  say-goodbye:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Print Goodbye World
+        run: echo "Goodbye, World!"
