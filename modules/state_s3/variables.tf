@@ -1,4 +1,8 @@
 variable "identifier" {
-  description = "リソースの識別子"
+  description = "識別子"
+  type        = string
+}
+variable "resource_name" {
+  description = "リソース名"
   type        = string
 }

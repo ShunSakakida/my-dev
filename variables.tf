@@ -1,14 +1,3 @@
-# リソース名のプレフィックス
-variable "identifier" {
-  description = "リソースの識別子"
-  type        = string
-  default     = "kst-sakakida-tf"
-}
-
-
-
-
-
 
 # # 変数を定義
 # variable "file_content" {

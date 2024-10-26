@@ -11,8 +11,9 @@ terraform {
 }
 
 
-# stateファイルをS3に保存するモジュール
+# stateファイルをS3に保存するモジュールｗ
 module "state_s3" {
-  source         = "./modules/state_s3"  # モジュールのパス
-  identifier = var.identifier       # ルートモジュールからプレフィックスを渡す
+  source        = "./modules/state_s3"  # モジュールのパス
+  identifier    = local.identifier
+  resource_name = local.resource_name_for_tf_state
 }
