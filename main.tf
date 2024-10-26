@@ -14,5 +14,5 @@ terraform {
 module "state_s3" {
   source        = "./modules/state_s3"  # モジュールのパス
   identifier    = local.identifier
-  resource_name = local.resource_name_for_tf_state
+  resource_name = local.resource_name_for_state
 }
