@@ -13,31 +13,29 @@ type MyEvent struct {
 	Name string `json:"name"`
 }
 
-type Response struct {
-	IsBase64Encoded bool              `json:"isBase64Encoded"`
-	StatusCode      int               `json:"statusCode"`
-	Headers         map[string]string `json:"headers"`
-	Body            string            `json:"body"`
-}
-
-func HandleRequest(ctx context.Context, request events.APIGatewayProxyRequest) (*Response, error) {
+func HandleRequest(ctx context.Context, request events.APIGatewayProxyRequest) (events.APIGatewayProxyResponse, error) {
 	// リクエストボディをMyEvent構造体にパース
 	var event MyEvent
 	if err := json.Unmarshal([]byte(request.Body), &event); err != nil {
-		return nil, fmt.Errorf("failed to unmarshal request body: %v", err)
+		return events.APIGatewayProxyResponse{
+			StatusCode: 400,
+			Body:       fmt.Sprintf("Invalid request: %v", err),
+		}, nil
 	}
 
 	// メッセージ生成
 	message := fmt.Sprintf("Hello %s!", event.Name)
 	body, err := json.Marshal(map[string]string{"message": message})
 	if err != nil {
-		return nil, err
+		return events.APIGatewayProxyResponse{
+			StatusCode: 500,
+			Body:       "Failed to generate response",
+		}, nil
 	}
 
-	// レスポンス生成
-	return &Response{
-		IsBase64Encoded: false,
-		StatusCode:      200,
+	// 正常なレスポンス
+	return events.APIGatewayProxyResponse{
+		StatusCode: 200,
 		Headers: map[string]string{
 			"Content-Type": "application/json",
 		},
