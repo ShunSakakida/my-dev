@@ -5,6 +5,7 @@ import (
 	"encoding/json"
 	"fmt"
 
+	"github.com/aws/aws-lambda-go/events"
 	"github.com/aws/aws-lambda-go/lambda"
 )
 
@@ -19,16 +20,21 @@ type Response struct {
 	Body            string            `json:"body"`
 }
 
-func HandleRequest(ctx context.Context, event *MyEvent) (*Response, error) {
-	if event == nil {
-		return nil, fmt.Errorf("received nil event")
+func HandleRequest(ctx context.Context, request events.APIGatewayProxyRequest) (*Response, error) {
+	// リクエストボディをMyEvent構造体にパース
+	var event MyEvent
+	if err := json.Unmarshal([]byte(request.Body), &event); err != nil {
+		return nil, fmt.Errorf("failed to unmarshal request body: %v", err)
 	}
+
+	// メッセージ生成
 	message := fmt.Sprintf("Hello %s!", event.Name)
 	body, err := json.Marshal(map[string]string{"message": message})
 	if err != nil {
 		return nil, err
 	}
 
+	// レスポンス生成
 	return &Response{
 		IsBase64Encoded: false,
 		StatusCode:      200,
