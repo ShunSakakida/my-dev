@@ -7,25 +7,33 @@ import (
 	"github.com/aws/aws-lambda-go/lambda"
 )
 
+// AppSyncからのリクエストイベント構造体
 type AppSyncEvent struct {
-	Arguments map[string]interface{} `json:"arguments"`
+	Arguments GreetArguments `json:"arguments"`
 }
 
-type Response struct {
+// greetクエリの引数構造体
+type GreetArguments struct {
+	Name string `json:"name"`
+}
+
+// レスポンス構造体（スキーマのGreetResponseに対応）
+type GreetResponse struct {
 	Message string `json:"message"`
 	Length  int    `json:"length"`
 }
 
-func HandleRequest(ctx context.Context, event AppSyncEvent) (Response, error) {
-	name, ok := event.Arguments["name"].(string)
-	if !ok {
-		return Response{}, fmt.Errorf("invalid argument")
-	}
+// ハンドラ関数
+func HandleRequest(ctx context.Context, event AppSyncEvent) (GreetResponse, error) {
+	// 引数からnameを取得
+	name := event.Arguments.Name
 
+	// メッセージを生成
 	message := fmt.Sprintf("Hello, %s!", name)
 	length := len(message)
 
-	return Response{
+	// レスポンスを生成
+	return GreetResponse{
 		Message: message,
 		Length:  length,
 	}, nil

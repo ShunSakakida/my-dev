@@ -1,5 +1,7 @@
 .terraform
 
 main
+appsync_lambda
+bootstrap
 *.zip
 *.txt
