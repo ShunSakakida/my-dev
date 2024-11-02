@@ -1,8 +1,13 @@
+# Terraform
 .terraform
 
+
+# バイナリ
 main
-appsync_lambda
+function
 bootstrap
+
+# ファイル
 *.zip
 *.txt
 
