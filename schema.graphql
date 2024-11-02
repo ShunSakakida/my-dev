@@ -1,0 +1,8 @@
+type GreetResponse {
+	message: String
+	length: Int
+}
+
+type Query {
+	greet(name: String!): GreetResponse
+}

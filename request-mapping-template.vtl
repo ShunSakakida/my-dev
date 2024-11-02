@@ -1,0 +1,13 @@
+#**
+The value of 'payload' after the template has been evaluated
+will be passed as the event to AWS Lambda.
+*#
+{
+  "version": "2018-05-29",#**2017-02-28 どっちでもできる*#
+  "operation": "Invoke",
+  "payload": $util.toJson({
+    "arguments": {
+      "name": "$ctx.arguments.name"
+    }
+  })
+}

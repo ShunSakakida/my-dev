@@ -5,3 +5,6 @@ appsync_lambda
 bootstrap
 *.zip
 *.txt
+
+# LocalStack mount volume
+volume/
